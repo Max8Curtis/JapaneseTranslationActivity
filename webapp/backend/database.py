@@ -12,7 +12,6 @@ def create_tables():
     tables.init_db(conn)
     release_connection(conn)
 
-
 def get_connection():
     return connection_pool.getconn()
 
