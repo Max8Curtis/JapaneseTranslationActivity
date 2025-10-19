@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from '@mui/material/Button'
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -21,8 +22,8 @@ function App() {
   return (
     <div style={{ padding: "2rem" }}>
       <h1>Users</h1>
-      <button onClick={getUsers}>Load Users</button>
-      <button onClick={addUser}>Add User</button>
+      <Button variant="contained" onClick={getUsers}>Load Users</Button>
+      <Button variant="contained" onClick={addUser}>Add User</Button>
       <ul>
         {users.map((u) => (
           <li key={u.id}>{u.name}</li>
