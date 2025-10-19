@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import Button from '@mui/material/Button'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Translate from './translate';
+// import Navigation from './navigation'
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [value, setValue] = React.useState(0);
 
   const getUsers = async () => {
     const res = await fetch("http://127.0.0.1:8000/users");
@@ -19,17 +22,21 @@ function App() {
     getUsers();
   };
 
+  function Home() {
+  return <h1>Home Page</h1>;
+}
+
+function About() {
+  return <h1>About Page</h1>;
+}
+
+
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Users</h1>
-      <Button variant="contained" onClick={getUsers}>Load Users</Button>
-      <Button variant="contained" onClick={addUser}>Add User</Button>
-      <ul>
-        {users.map((u) => (
-          <li key={u.id}>{u.name}</li>
-        ))}
-      </ul>
-    </div>
+    <BrowserRouter>
+      <Translate></Translate>
+    
+    </BrowserRouter>
+    
   );
 }
 
