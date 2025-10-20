@@ -9,31 +9,32 @@ const Header = styled.h3`
   font-size: 2rem;
 `;
 
+export async function getGrammarPointInfo() {
+    const res = await fetch("http://127.0.0.1:8000/grammar");
+    const data = await res.json();
+    console.log(data)
+    return data;
+}
+
 function Grammar() {
 
     const [grammarPoint, setGrammarPoint] = useState('');
     const [grammarPointTranslation, setGrammarPointTranslation] = useState('');
 
     useEffect(() => {
-        async function getGrammarPointInfo() {
-            const res = await fetch("http://127.0.0.1:8000/grammar");
-            const data = await res.json();
-            // console.log(data)
-            setGrammarPoint(data.grammarPointJp);
-            setGrammarPointTranslation(data.grammarPointEn);
+        const fetchData = async () => {
+            try {
+                const result = await getGrammarPointInfo();
+                setGrammarPoint(result.grammarPointJp);
+                setGrammarPointTranslation(result.grammarPointEn);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         };
 
-        if (!grammarPoint) {
-            getGrammarPointInfo()
-        }
+        fetchData()
     }, []);
 
-    // const getGrammarPointInfo = async () => {
-    //     const res = await fetch("http://127.0.0.1:8000/grammar");
-    //     const data = await res.json();
-    //     setGrammarPoint(data['grammarPointJp']);
-    //     setGrammarPointTranslation(data['grammarPointEn']);
-    // };
 
     return (
         <div id="grammar-section-container">
