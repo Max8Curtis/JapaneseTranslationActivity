@@ -17,6 +17,10 @@ app.add_middleware(
 
 create_tables()
 
+@app.get('/grammar')
+def grammar_info():
+    return {'grammarPointJp': 'Japanese', 'grammarPointEn': 'English'}
+
 @app.get("/users")
 def read_users():
     conn = get_connection()
