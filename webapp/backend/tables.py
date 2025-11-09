@@ -2,39 +2,38 @@ import psycopg2
 
 def init_db(conn):
     curr = conn.cursor()
-    curr.execute("""
-        CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
-            name TEXT UNIQUE
-        );
-    """)
+
+    # curr.execute("DROP TABLE grammar CASCADE;")
+    # curr.execute("DROP TABLE level CASCADE;")
+    # curr.execute("DROP TABLE example CASCADE;")
 
     curr.execute("""
-        CREATE TABLE IF NOT EXISTS example (
-            id SERIAL PRIMARY KEY,
-            text_jp TEXT,
-            text_en TEXT,
-            highlight_indices TEXT,
-            grammar INT,
-            FOREIGN KEY grammar REFERENCES grammar(id)
+        CREATE TABLE IF NOT EXISTS level (
+            id INT PRIMARY KEY,
+            name VARCHAR(2)
         );
-                """)
+                 """)
 
     curr.execute("""
         CREATE TABLE IF NOT EXISTS grammar (
             id SERIAL PRIMARY KEY,
-            level NOT NULL,
+            level INT NOT NULL REFERENCES level(id),
+            grammar_jp TEXT NOT NULL,
+            grammar_en TEXT NOT NULL,
             description TEXT,
-            FOREIGN KEY (level) REFERENCES level(id);
+            url TEXT
         );
                  """)
-    
+
     curr.execute("""
-        CREATE TABLE IF NOT EXISTS level (
+        CREATE TABLE IF NOT EXISTS example (
             id SERIAL PRIMARY KEY,
-            name VARCHAR(2)
+            grammar INT NOT NULL REFERENCES grammar(id),
+            example_jp TEXT,
+            example_en TEXT,
+            highlight_indices TEXT
         );
-                 """)
+                """)
 
     conn.commit()
     curr.close()

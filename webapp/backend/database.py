@@ -1,8 +1,18 @@
 import os
-import psycopg2
-import psycopg2.extras
+# import psycopg2
+# import psycopg2.extras
 from psycopg2 import pool
 import tables
+import os
+from dotenv import load_dotenv
+
+# load_dotenv()
+
+# MY_ENV_VAR = os.getenv('MY_ENV_VAR')
+
+# POSTGRES_USER = myuser
+# POSTGRES_PASSWORD = mypassword
+# POSTGRES_DB = mydb
 
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://myuser:mypassword@localhost:5432/mydb")
 connection_pool = pool.SimpleConnectionPool(1, 10, DATABASE_URL)
