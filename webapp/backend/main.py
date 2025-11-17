@@ -1,6 +1,7 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Depends
 from database import get_connection, release_connection, create_tables
+from tools import stringToList, cleanStrings, formatStringsHtml
 import psycopg2
 import psycopg2.extras
 from pydantic import BaseModel
@@ -40,9 +41,22 @@ async def grammar_info(grammar: Grammar):
     results = curr.fetchone()
     print(f"Results: {results['id']}")
     (id, level, grammar_jp, grammar_en, description, url) = results['id'], results['level'], results['grammar_jp'], results['grammar_en'], results['description'], results['url']
-
+    print(description)
     curr.close()
     release_connection(conn)
+    description = stringToList(description)
+    # print(description)
+    description = cleanStrings(description)
+    # print(description)
+    description = formatStringsHtml(description)
+    # print(description)
+
+    grammar_jp = stringToList(grammar_jp)
+    # print(grammar_jp)
+    grammar_jp = cleanStrings(grammar_jp)
+    # print(grammar_jp)
+    grammar_jp = formatStringsHtml(grammar_jp)
+    # print(grammar_jp)
 
     return {'id': id, 'level': level, 'grammar_jp': grammar_jp, 'grammar_en': grammar_en, 'description': description, 'url': url}
 
